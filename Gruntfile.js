@@ -34,7 +34,7 @@ module.exports = function( grunt ) {
                             'font-awesome/fonts/**',
                             'img/**'
                         ],
-                        dest: 'dist/'
+                        dest: 'libs/'
                     }
                 ]
             },
