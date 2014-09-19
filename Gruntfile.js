@@ -9,8 +9,7 @@ module.exports = function( grunt ) {
         pkg: grunt.file.readJSON( 'package.json' ),
 
         clean: {
-            'libs': ['libs'],
-            'dist': ['dist']
+            'dist': ['.tmp', 'dist']
         },
 
         watch: {
