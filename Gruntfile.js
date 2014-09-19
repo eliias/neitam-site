@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
                         'dist/img/**/*.*',
                         '!dist/img/*/*@2x.*',
                         'dist/fonts/**/*.*',
-                        'dist/*.{ico,png}'
+                        'dist/*.{png}'
                     ]
                 }
             }
