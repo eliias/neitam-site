@@ -8,20 +8,54 @@ module.exports = function( grunt ) {
     grunt.initConfig( {
         pkg: grunt.file.readJSON( 'package.json' ),
 
+        clean: ['dist'],
+
         less: {
             production: {
                 options: {
-                    paths: ["css"],
+                    paths: ['css'],
                     cleancss: true
                 },
                 files: {
-                    "css/freelancer.css": "css/freelancer.less"
+                    'css/freelancer.css': 'css/freelancer.less'
                 }
+            }
+        },
+
+        copy: {
+            libs: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: './bower_components',
+                        src: [
+                            'jquery/jquery.js',
+                            'bootstrap/dist/**',
+                            'font-awesome/fonts/**',
+                            'img/**'
+                        ],
+                        dest: 'dist/'
+                    }
+                ]
+            },
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        src: [
+                            'index.html',
+                            'css/**/*.css',
+                            'js/**/*.js',
+                            'img/**'
+                        ],
+                        dest: 'dist/'
+                    }
+                ]
             }
         }
     } );
 
     // Default task(s).
-    grunt.registerTask( 'default', ['less'] );
+    grunt.registerTask( 'default', ['less', 'copy:libs', 'clean', 'copy:dist'] );
 
 };
