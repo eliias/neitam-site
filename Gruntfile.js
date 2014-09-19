@@ -8,7 +8,10 @@ module.exports = function( grunt ) {
     grunt.initConfig( {
         pkg: grunt.file.readJSON( 'package.json' ),
 
-        clean: ['dist'],
+        clean: {
+            'libs': ['libs'],
+            'dist': ['dist']
+        },
 
         less: {
             production: {
@@ -29,8 +32,8 @@ module.exports = function( grunt ) {
                         expand: true,
                         cwd: './bower_components',
                         src: [
-                            'jquery/jquery.js',
-                            'bootstrap/dist/**',
+                            'jquery/dist/jquery.js',
+                            'bootstrap/dist/js/bootstrap.js',
                             'font-awesome/fonts/**',
                             'img/**'
                         ],
@@ -56,6 +59,6 @@ module.exports = function( grunt ) {
     } );
 
     // Default task(s).
-    grunt.registerTask( 'default', ['less', 'copy:libs', 'clean', 'copy:dist'] );
+    grunt.registerTask( 'default', ['less', 'clean:libs', 'copy:libs', 'clean:dist', 'copy:dist'] );
 
 };
