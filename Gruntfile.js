@@ -127,6 +127,7 @@ module.exports = function( grunt ) {
                     {
                         expand: true,
                         src: [
+                            '.htaccess',
                             'index.html'
                         ],
                         dest: 'dist/'
