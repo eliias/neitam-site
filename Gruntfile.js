@@ -1,23 +1,27 @@
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
 
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
-      }
-    }
-  });
+    // Measure task time
+    require( 'time-grunt' )( grunt );
+    require( 'load-grunt-tasks' )( grunt );
 
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+    // Project configuration.
+    grunt.initConfig( {
+        pkg: grunt.file.readJSON( 'package.json' ),
 
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+        less: {
+            production: {
+                options: {
+                    paths: ["css"],
+                    cleancss: true
+                },
+                files: {
+                    "css/freelancer.css": "css/freelancer.less"
+                }
+            }
+        }
+    } );
+
+    // Default task(s).
+    grunt.registerTask( 'default', ['less'] );
 
 };
