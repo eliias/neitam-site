@@ -2,3 +2,5 @@
 /.idea
 
 # Site
+/bower_components
+/node_modules

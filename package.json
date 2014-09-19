@@ -1,0 +1,27 @@
+{
+  "name": "netiam",
+  "version": "0.0.1",
+  "description": "netiam is a RESTful API framework",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@dovigo.org:projects/netiam.git"
+  },
+  "keywords": [
+    "API",
+    "REST",
+    "RESTful",
+    "Framework",
+    "Web-Service"
+  ],
+  "author": "Hannes Moser <hannes@impossiblearts.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.0.1"
+  }
+}

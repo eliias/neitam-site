@@ -1,0 +1,31 @@
+{
+  "name": "netiam",
+  "version": "0.0.1",
+  "authors": [
+    "Hannes Moser <hannes@impossiblearts.com>"
+  ],
+  "description": "netiam is a RESTful API framework",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "API",
+    "REST",
+    "Framework",
+    "Web-Service"
+  ],
+  "license": "MIT",
+  "homepage": "https://neti.am",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}
