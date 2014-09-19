@@ -78,7 +78,7 @@ module.exports = function( grunt ) {
             dist: {
                 files: [
                     {
-                        src: 'dist/css/freelancer.css',
+                        src: '.tmp/concat/css/freelancer.css',
                         dest: 'dist/css/freelancer.css'
                     }
                 ]
@@ -122,32 +122,29 @@ module.exports = function( grunt ) {
         },
 
         copy: {
-            libs: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: './bower_components',
-                        src: [
-                            'jquery/dist/jquery.js',
-                            'bootstrap/dist/js/bootstrap.js',
-                            'font-awesome/fonts/**',
-                            'img/**'
-                        ],
-                        dest: 'libs/'
-                    }
-                ]
-            },
             dist: {
                 files: [
                     {
                         expand: true,
                         src: [
                             'index.html',
-                            'css/**/*.css',
-                            'js/**/*.js',
                             'img/**'
                         ],
                         dest: 'dist/'
+                    },
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: 'bower_components/bootstrap/dist',
+                        src: ['fonts/*.*'],
+                        dest: 'dist'
+                    },
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: 'bower_components/font-awesome/',
+                        src: ['fonts/*.*'],
+                        dest: 'dist'
                     }
                 ]
             }
