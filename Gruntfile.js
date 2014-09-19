@@ -113,9 +113,9 @@ module.exports = function( grunt ) {
                 files: [
                     {
                         expand: true,
-                        cwd: '/img',
+                        cwd: 'img',
                         src: '**/*.{gif,jpeg,jpg,png}',
-                        dest: 'dist/images'
+                        dest: 'dist/img'
                     }
                 ]
             }
@@ -127,8 +127,7 @@ module.exports = function( grunt ) {
                     {
                         expand: true,
                         src: [
-                            'index.html',
-                            'img/**'
+                            'index.html'
                         ],
                         dest: 'dist/'
                     },
@@ -164,7 +163,8 @@ module.exports = function( grunt ) {
             'cssmin:dist',
             'rev',
             'usemin',
-            'htmlmin'
+            'htmlmin',
+            'imagemin'
         ]
     );
 
