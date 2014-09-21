@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/eliias/node-restable.svg)](https://coveralls.io/r/eliias/node-restable)
 [![Dependency Status](https://david-dm.org/eliias/node-restable.svg)](https://david-dm.org/eliias/node-restable#info=dependencies)
 [![Dependency Status](https://david-dm.org/eliias/node-restable/dev-status.svg)](https://david-dm.org/eliias/node-restable#info=devDependencies)
-[![Code Climate](http://img.shields.io/codeclimate/github/eliias/node-restable.svg)](https://codeclimate.com/github/eliias/node-restable)
+[![Code Climate](https://img.shields.io/codeclimate/github/eliias/node-restable.svg)](https://codeclimate.com/github/eliias/node-restable)
 
 A RESTful API skeleton for node.js
 
@@ -16,7 +16,7 @@ versioning and client profiles.
 
 Design goals are:
 
-* Be reactive as defined by the [reactivemanifesto](http://www.reactivemanifesto.org/)
+* Be reactive as defined by the [reactivemanifesto](https://www.reactivemanifesto.org/)
 * No states at all (so no sessions on server)
 * Scale horizontal
 * Documentation is always up2date
