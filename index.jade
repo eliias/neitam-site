@@ -1,0 +1,201 @@
+doctype html
+head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    meta(name="description", content="REST API's for people that want everything")
+    meta(name="author", content="Hannes Moser")
+
+    title NET I AM - REST API's for people that want everything
+
+    // Custom Fonts
+    link(href="https://fonts.googleapis.com/css?family=Montserrat:400,700", rel="stylesheet", type="text/css")
+    link(href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic", rel="stylesheet", type="text/css")
+
+    // build:css css/freelancer.css
+    link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet", href="bower_components/font-awesome/css/font-awesome.css")
+    link(rel="stylesheet", href="css/freelancer.css")
+    // endbuild
+
+body#page-top.index
+    // Navigation
+    nav.navbar.navbar-default.navbar-fixed-top
+        .container
+            // Brand and toggle get grouped for better mobile display
+            .navbar-header.page-scroll
+                button.navbar-toggle(type='button', data-toggle='collapse', data-target='#netiam-navbar')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='#page-top') net i am
+            // Collect the nav links, forms, and other content for toggling
+            #netiam-navbar.collapse.navbar-collapse
+                ul.nav.navbar-nav.navbar-right
+                    li.hidden
+                        a(href='#page-top')
+                    li.page-scroll
+                        a.text-muted(href='#download') Download
+                    li.page-scroll
+                        a(href='#docs') Docs
+                    li.page-scroll
+                        a(href='#about') About
+                    li.page-scroll
+                        a(href='#contact') Contact
+
+    // Header
+    header
+        .container
+            .row
+                .col-lg-12
+                    img.img-responsive(src='img/profile.png', alt='')
+                    .intro-text
+                        span.name net i am
+                        hr.star-light
+                        span.skills RESTful API Framework at your service
+
+    // Download
+    section#download
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2 Download
+                    hr.star-primary
+            .row
+                p.text-center.text-muted
+                    | We are currently working on our
+                    | first release.
+                p.text-center
+                    | If you still want to fool around with the
+                    | code, you can
+                    a(href='https://www.npmjs.org/package/node-restable')
+                        | fork
+                        | it on github
+                    | .
+
+    // Docs
+    section#docs
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2 Documentation
+                    hr.star-primary
+            .row
+                p.text-center.text-muted
+                    | We are currently working on
+                    | documentation and examples.
+                pre.col-sm-6.col-sm-offset-3.
+                  # Install
+                  npm install node-restable
+            .row
+                .col-sm-12.md
+                    include:md sections/readme.md
+
+    // About Section
+    section#about.success
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2 About
+                    hr.star-light
+            .row
+                .col-lg-4.col-lg-offset-2
+                    p
+                        | neti.am aims to provider a fully-featured open-source API
+                        | stack for your next project. Using progressive and easy to
+                        | use technology (Node.js, MongoDB), we try to shorten down
+                        | your development time and reduce your costs.
+                .col-lg-4
+                    p
+                        | We do our best to give you a solid and straight-forward API
+                        | next to a modular system, so that this will fit easily into
+                        | most of your development scenarios.
+                .col-lg-8.col-lg-offset-2.text-center
+                    a.btn.btn-lg.btn-outline(href='#', disabled='disabled')
+                        i.fa.fa-download
+                        | Download
+
+    // Contact Section
+    section#contact
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2 Contact
+                    hr.star-primary
+            .row
+                .col-lg-8.col-lg-offset-2
+                    // To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.
+                    // The form should work on most web servers, but if the form is not working you may need to configure your web server differently.
+                    form#contactForm(name='sentMessage', novalidate='')
+                        .row.control-group
+                            .form-group.col-xs-12.floating-label-form-group.controls
+                                label Name
+                                input#name.form-control(type='text', placeholder='Name', required='', data-validation-required-message='Please enter your name.')
+                                p.help-block.text-danger
+                        .row.control-group
+                            .form-group.col-xs-12.floating-label-form-group.controls
+                                label Email Address
+                                input#email.form-control(type='email', placeholder='Email Address', required='', data-validation-required-message='Please enter your email address.')
+                                p.help-block.text-danger
+                        .row.control-group
+                            .form-group.col-xs-12.floating-label-form-group.controls
+                                label Phone Number
+                                input#phone.form-control(type='tel', placeholder='Phone Number', required='', data-validation-required-message='Please enter your phone number.')
+                                p.help-block.text-danger
+                        .row.control-group
+                            .form-group.col-xs-12.floating-label-form-group.controls
+                                label Message
+                                textarea#message.form-control(rows='5', placeholder='Message', required='', data-validation-required-message='Please enter a message.')
+                                p.help-block.text-danger
+                        br
+                        #success
+                        .row
+                            .form-group.col-xs-12
+                                button.btn.btn-success.btn-lg(type='submit', disabled='disabled')
+                                    | Send
+
+    // Footer
+    footer.text-center
+        .footer-above
+            .container
+                .row
+                    .footer-col.col-md-4
+                        h3 Location
+                        p
+                            | Jakob-Haringer Straße 1
+                            br
+                            | A-5020, Salzburg
+                    .footer-col.col-md-4
+                        h3 Around the Web
+                        ul.list-inline
+                            li
+                                a.btn-social.btn-outline(href='https://facebook.com/hwm')
+                                    i.fa.fa-fw.fa-facebook
+                            li
+                                a.btn-social.btn-outline(href='https://twitter.com/eliias')
+                                    i.fa.fa-fw.fa-twitter
+                            li
+                                a.btn-social.btn-outline(href='https://at.linkedin.com/in/moserhannes')
+                                    i.fa.fa-fw.fa-linkedin
+                    .footer-col.col-md-4
+                        h3 About neti.am
+                        p
+                            | This project aims to provide a full-featured RESTful API
+                            | framework.
+        .footer-below
+            .container
+                .row
+                    .col-lg-12
+                        | Copyright © neti.am 2014
+
+    // Scroll to Top Button (Only visible on small and extra-small screen sizes)
+    .scroll-top.page-scroll.visible-xs.visble-sm
+        a.btn.btn-primary(href='#page-top')
+            i.fa.fa-chevron-up
+
+    // build:js js/freelancer.js
+    script(src='bower_components/jquery/dist/jquery.js')
+    script(src='bower_components/bootstrap/dist/js/bootstrap.js')
+    script(src='js/freelancer.js')
+    // endbuild

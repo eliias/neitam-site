@@ -20,6 +20,10 @@ module.exports = function( grunt ) {
             less: {
                 files: ['css/**/*.less'],
                 tasks: ['less:production']
+            },
+            jade: {
+                files: ['index.jade'],
+                tasks: ['jade:compile']
             }
         },
 
@@ -69,6 +73,17 @@ module.exports = function( grunt ) {
                 },
                 files: {
                     'css/freelancer.css': 'css/freelancer.less'
+                }
+            }
+        },
+
+        jade: {
+            compile: {
+                options: {
+                    pretty: true
+                },
+                files: {
+                    'index.html': ['index.jade']
                 }
             }
         },
@@ -157,6 +172,7 @@ module.exports = function( grunt ) {
         [
             'clean:dist',
             'useminPrepare',
+            'jade',
             'less',
             'concat',
             'uglify',
