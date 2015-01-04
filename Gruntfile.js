@@ -1,37 +1,123 @@
 module.exports = function( grunt ) {
+    'use strict';
 
-    // Measure task time
-    require( 'time-grunt' )( grunt );
+    // Load grunt tasks automatically
     require( 'load-grunt-tasks' )( grunt );
 
-    // Project configuration.
-    grunt.initConfig( {
-        pkg: grunt.file.readJSON( 'package.json' ),
+    // Time how long tasks take. Can help when optimizing build times
+    require( 'time-grunt' )( grunt );
 
-        clean: {
-            'dist': ['.tmp', 'dist']
-        },
+    var config = {
+        app:  'app',
+        dist: 'dist'
+    };
+
+    grunt.initConfig( {
+
+        config: config,
 
         watch: {
-            bower: {
+            bower:      {
                 files: ['bower.json'],
                 tasks: ['wiredep']
             },
-            less: {
-                files: ['css/**/*.less'],
-                tasks: ['less:production']
+            js:         {
+                files:   ['<%= config.app %>/scripts/**/*.js'],
+                tasks:   ['jshint'],
+                options: {
+                    livereload: true
+                }
             },
-            jade: {
-                files: ['index.jade'],
-                tasks: ['jade:compile']
+            gruntfile:  {
+                files: ['Gruntfile.js']
+            },
+            less:       {
+                files: ['<%= config.app %>/styles/**/*.less'],
+                tasks: ['less:styles', 'autoprefixer']
+            },
+            jade:       {
+                files: ['<%= config.app %>/**/*.{jade,md}'],
+                tasks: ['jade:build']
+            },
+            livereload: {
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                },
+                files:   [
+                    '.tmp/**/*.html',
+                    '.tmp/styles/**/*.css',
+                    '<%= config.app %>/img/**/*'
+                ]
+            }
+        },
+
+        connect: {
+            options:    {
+                port:     3000,
+                open:     true,
+                hostname: '0.0.0.0'
+            },
+            livereload: {
+                options: {
+                    middleware: function( connect ) {
+                        return [
+                            connect.static( '.tmp' ),
+                            connect().use( '/bower_components', connect.static( './bower_components' ) ),
+                            connect.static( config.app )
+                        ];
+                    }
+                }
+            },
+            dist:       {
+                options: {
+                    base:       '<%= config.dist %>',
+                    livereload: false
+                }
+            }
+        },
+
+        clean: {
+            dist:   {
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= config.dist %>/*'
+                    ]
+                }]
+            },
+            server: '.tmp'
+        },
+
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc',
+                reporter: require( 'jshint-stylish' )
+            },
+            all:     [
+                'Gruntfile.js',
+                '<%= config.app %>/scripts/**/*.js'
+            ]
+        },
+
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist:    {
+                files: [{
+                    expand: true,
+                    cwd:    '.tmp/styles/',
+                    src:    '**/*.css',
+                    dest:   '<%= config.dist %>/styles/'
+                }]
             }
         },
 
         wiredep: {
-            target: {
-                src: [
-                    'index.html'
-                ]
+            app: {
+                src:     ['<%= config.app %>/bower-*.jade'],
+                exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
             }
         },
 
@@ -39,12 +125,12 @@ module.exports = function( grunt ) {
             dist: {
                 files: {
                     src: [
-                        'dist/js/**/*.js',
-                        'dist/css/**/*.css',
-                        'dist/img/**/*.*',
-                        '!dist/img/*/*@2x.*',
-                        'dist/fonts/**/*.*',
-                        'dist/*.{png}'
+                        '<%= config.dist %>/scripts/**/*.js',
+                        '<%= config.dist %>/styles/**/*.css',
+                        '<%= config.dist %>/img/**/*.*',
+                        '!<%= config.dist %>/img/**/*@2x.*',
+                        '<%= config.dist %>/fonts/**/*.*',
+                        '<%= config.dist %>/*.{png}'
                     ]
                 }
             }
@@ -52,50 +138,41 @@ module.exports = function( grunt ) {
 
         useminPrepare: {
             options: {
-                dest: 'dist'
+                dest: '<%= config.dist %>'
             },
-            html: 'index.html'
+            html:    '<%= config.dist %>/index.html'
         },
 
         usemin: {
             options: {
-                assetsDirs: ['dist', 'dist/img']
-            },
-            html: ['dist/**/*.html'],
-            css: ['dist/css/**/*.css']
-        },
-
-        less: {
-            production: {
-                options: {
-                    paths: ['css'],
-                    cleancss: true
-                },
-                files: {
-                    'css/freelancer.css': 'css/freelancer.less'
-                }
-            }
-        },
-
-        jade: {
-            compile: {
-                options: {
-                    pretty: true
-                },
-                files: {
-                    'index.html': ['index.jade']
-                }
-            }
-        },
-
-        cssmin: {
-            dist: {
-                files: [
-                    {
-                        src: '.tmp/concat/css/freelancer.css',
-                        dest: 'dist/css/freelancer.css'
-                    }
+                assetsDirs: [
+                    '<%= config.dist %>',
+                    '<%= config.dist %>/img'
                 ]
+            },
+            html:    ['<%= config.dist %>/**/*.html'],
+            css:     ['<%= config.dist %>/styles/**/*.css']
+        },
+
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd:    '<%= config.app %>/img',
+                    src:    '**/*.{gif,jpeg,jpg,png}',
+                    dest:   '<%= config.dist %>/img'
+                }]
+            }
+        },
+
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd:    '<%= config.app %>/img',
+                    src:    '**/*.svg',
+                    dest:   '<%= config.dist %>/img'
+                }]
             }
         },
 
@@ -103,86 +180,154 @@ module.exports = function( grunt ) {
             dist: {
                 options: {
                     collapseBooleanAttributes: true,
-                    collapseWhitespace: true,
-                    removeAttributeQuotes: true,
-                    removeCommentsFromCDATA: true,
-                    removeEmptyAttributes: true,
-                    removeOptionalTags: true,
+                    collapseWhitespace:        true,
+                    removeAttributeQuotes:     true,
+                    removeCommentsFromCDATA:   true,
+                    removeEmptyAttributes:     true,
+                    removeOptionalTags:        true,
                     removeRedundantAttributes: true,
-                    useShortDoctype: true
+                    useShortDoctype:           true
                 },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'dist',
-                        src: '**/*.html',
-                        dest: 'dist'
-                    }
-                ]
-            }
-        },
-
-        imagemin: {
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'img',
-                        src: '**/*.{gif,jpeg,jpg,png}',
-                        dest: 'dist/img'
-                    }
-                ]
+                files:   [{
+                    expand: true,
+                    cwd:    '<%= config.dist %>',
+                    src:    '**/*.html',
+                    dest:   '<%= config.dist %>'
+                }]
             }
         },
 
         copy: {
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        src: [
-                            '.htaccess',
-                            'favicon.ico',
-                            'index.html'
-                        ],
-                        dest: 'dist/'
-                    },
-                    {
-                        expand: true,
-                        dot: true,
-                        cwd: 'bower_components/bootstrap/dist',
-                        src: ['fonts/*.*'],
-                        dest: 'dist'
-                    },
-                    {
-                        expand: true,
-                        dot: true,
-                        cwd: 'bower_components/font-awesome/',
-                        src: ['fonts/*.*'],
-                        dest: 'dist'
-                    }
+                files: [{
+                    expand: true,
+                    dot:    true,
+                    cwd:    '<%= config.app %>',
+                    dest:   '<%= config.dist %>',
+                    src:    [
+                        '.htaccess',
+                        '*.{ico,png,txt}'
+                    ]
+                }, {
+                    expand: true,
+                    dot:    true,
+                    cwd:    'bower_components/bootstrap/dist',
+                    src:    ['fonts/*.*'],
+                    dest:   '<%= config.dist %>'
+                }, {
+                    expand: true,
+                    dot:    true,
+                    cwd:    'bower_components/font-awesome/',
+                    src:    ['fonts/*.*'],
+                    dest:   '<%= config.dist %>'
+                }]
+            }
+        },
+
+        less: {
+            styles: {
+                src:  '<%= config.app %>/styles/main.less',
+                dest: '.tmp/styles/main.css'
+            }
+        },
+
+        jade: {
+            options: {
+                pretty: true
+            },
+            build:   {
+                src:  '<%= config.app %>/index.jade',
+                dest: '.tmp/index.html'
+            },
+            dist:    {
+                src:  '<%= config.app %>/index.jade',
+                dest: '<%= config.dist %>/index.html'
+            }
+        },
+
+        concurrent: {
+            server: [
+                'less:styles',
+                'jade:build'
+            ],
+            dist:   [
+                'less:styles',
+                'imagemin',
+                'svgmin'
+            ]
+        },
+
+        uncss: {
+            options: {
+                ignore: [
+                    /fa/,
+                    /btn/,
+                    /.in/,
+                    /.out/,
+                    /tito/,
+                    /#map/,
+                    /modal/,
+                    /footer/,
+                    /sponsor/,
+                    /\.team-member/,
+                    /\.img\-circle/,
+                    /\.list\-inline/,
+                    /\.navbar\-shrink/,
+                    /collap/,
+                    /\.social\-buttons/
                 ]
+            },
+            dist:    {
+                files: [{
+                    src:  '<%= config.dist %>/index.html',
+                    dest: '<%= config.dist %>/styles/main.css'
+                }]
+            }
+        },
+
+        cssmin: {
+            dist: {
+                files: [{
+                    src:  '<%= config.dist %>/styles/main.css',
+                    dest: '<%= config.dist %>/styles/main.css'
+                }]
             }
         }
     } );
 
-    // Default task(s).
-    grunt.registerTask(
-        'default',
-        [
-            'clean:dist',
-            'useminPrepare',
-            'jade',
-            'less',
-            'concat',
-            'uglify',
-            'copy:dist',
-            'cssmin:dist',
-            'rev',
-            'usemin',
-            'htmlmin',
-            'imagemin'
-        ]
-    );
+    grunt.registerTask( 'serve', function( target ) {
+        if (target === 'dist') {
+            return grunt.task.run( ['build', 'connect:dist:keepalive'] );
+        }
 
+        grunt.task.run( [
+            'clean:server',
+            'concurrent:server',
+            'autoprefixer',
+            'connect:livereload',
+            'copy:dist',
+            'watch'
+        ] );
+    } );
+
+    grunt.registerTask( 'build', [
+        'clean:dist',
+        'jade:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'concat',
+        'uglify',
+        'copy:dist',
+        'uncss',
+        'cssmin:dist',
+        'rev',
+        'usemin',
+        'htmlmin'
+    ] );
+
+    grunt.registerTask( 'default', [
+        'newer:jshint',
+        'build'
+    ] );
 };

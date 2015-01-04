@@ -21,7 +21,6 @@
 
     "white"         : true,
 
-    "predef"        : [
-    ],
+    "predef"        : ["$"],
     "indent"        : 4
 }
