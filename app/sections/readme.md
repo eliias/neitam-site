@@ -1,109 +1,289 @@
-# node-restable
-[![GitHub version](https://badge.fury.io/gh/eliias%2Fnode-restable.svg)](http://badge.fury.io/gh/eliias%2Fnode-restable)
-[![Build Status](https://travis-ci.org/eliias/node-restable.svg?branch=master)](https://travis-ci.org/eliias/node-restable)
-[![Coverage Status](https://img.shields.io/coveralls/eliias/node-restable.svg)](https://coveralls.io/r/eliias/node-restable)
-[![Dependency Status](https://david-dm.org/eliias/node-restable.svg)](https://david-dm.org/eliias/node-restable#info=dependencies)
-[![Dependency Status](https://david-dm.org/eliias/node-restable/dev-status.svg)](https://david-dm.org/eliias/node-restable#info=devDependencies)
-[![Code Climate](https://img.shields.io/codeclimate/github/eliias/node-restable.svg)](https://codeclimate.com/github/eliias/node-restable)
+# netiam
 
-A RESTful API skeleton for node.js
+[![Build Status](https://travis-ci.org/eliias/netiam.svg)](https://travis-ci.org/eliias/netiam)
+[![Dependencies](https://david-dm.org/eliias/netiam.svg)](https://david-dm.org/eliias/netiam)
+[![Codacy Badge](https://www.codacy.com/project/badge/2adb441af94d4fa6a9dd06df1b9e9e1d)](https://www.codacy.com/public/hannes/netiam)
 
-## Introduction
+This REST API library addresses some issues I had with API designs over the
+last years. It does not claim to provide a full featured solution and to be
+honest it might never will. Nevertheless, someone might find this library
+useful.
 
-The target of this project is to provide an upstream repository which can be forked for your own REST API projects.
-It covers the most common tasks in API development. Creating models (entities), routing, resources, privileges,
-versioning and client profiles.
+## Get it
 
-Design goals are:
 
-* Be reactive as defined by the [reactivemanifesto](https://www.reactivemanifesto.org/)
-* No states at all (so no sessions on server)
-* Scale horizontal
-* Documentation is always up2date
 
-## Resources
+```bash
+# without npm install
+git clone https://github.com/eliias/netiam.git
+cd netiam
+npm-link
+cd $PROJECT
+npm-link netiam
 
-A resource is the business logic for a specific entity. This is a pretty generic description that might not apply to
-all cases but it might give you a good understanding.
+# The day it has been published, you can do the following
+# npm --save install netiam
+```
 
-    GET /users/:id
+## What can it do for you
 
-would return a single document (for ODM) or row (for ORM) for the specific ID.
+* Authentication (all the sugar is provided by [passportjs](http://passportjs.org/))
+* Authorization (with ACLs, inheritance support for roles, assertions and wildcards)
+* Query language (effective and powerful filters)
+* File Handling (uploads, media extensions, metadata)
+* Completely stateless (cookie based sessions)
+* Profiles (e.g. mobile-friendly API responses)
+* Arbitrary environments (configs with inheritance support)
+* CLI (generate code, scaffolding)
+* Documentation generator
 
-## Documentation
+## Specification
 
-Keeping the documentation up 2 date is hard and it is a critical part in every API. The docs of this project are
-generated automagically every time the server is started.
+* [Execution flow](docs/flow.md)
+* [Plugin](docs/plugins.md)
 
-## Privileges
+## Getting started
 
-A generic ACL approach is used to handle granular privilege demands. There are two basic models you should know about.
+Creates a single route, using a custom plugin to add some data and returns
+everything as JSON.
 
- * resource-centric
- * object-centric
+```js
+'use strict';
 
-In general this means that you want to have more general rules for the whole resource. Think about creating a new user
-within the users resource. This would be a resource-centric privilege check.
+var express = require( 'express' ),
+    app     = express(),
+    server  = require( 'http' ).createServer( app ),
+    netiam  = require( 'netiam' )( app );
 
-    POST /users
+netiam
+    .get( '/' )
+    .data( {'Hello': 'World!'} )
+    .json();
 
-would create a new user and every "guest" should be allowed to create a user.
-In comparison to that, only a user (and maybe a superuser/admin) is allowed to modify its own information.
+server.listen( 3000 );
+```
 
-    PUT /users/:id
+## Tech Stack
 
-This would need an object-centric approach. There is one more thing to keep in mind. How to handle different access
-rights for the same object. Think about a venue that is maintained by the owner (same as the user object) but you its
-staff members must be allowed to create events for a specific venue. For this kind of rules there exists a top-down
-approach.
+* Express
+* MongoDB + Mongoose
 
-All ACL settings are declarative as it should be. No custom code necessary (In special cases you might create your own
-asserts).
+## Future
 
-## Versioning
+Upcoming releases might provide a better abstraction and allows you to choose
+your own database, filesystem and so on. There is also a plan to cut loose the
+Express dependency as you might want to use this library with any other Node.js
+web framework out there.
 
-Every lifecycle of an API may contain changes and additions to the public interface. It is a good idea in general to
-add versioning as early as possible. A key request to API versioning is to keep backward and forward compatibility.
-Easily said, but hard to achieve. This skeleton tries to provide a generic solution to version problems.
+I personally think GridFS is great, but might not be the perfect solution for
+everyone. Also, there are valid reasons to use a relational database instead of
+a document based database. There are some great solutions out there. Especially
+the [ORM](http://en.wikipedia.org/wiki/Object-relational_mapping)
+[sequelizejs](http://sequelizejs.com/) library.
 
-## Profiles
+## Today
 
-Think about a reduced response for mobile devices or a deeply nested entity to reduce number of requests. This can be
-achieved in two ways. Provide an **extend** parameter which specifies the branches to extend and/or set the **depth**
-parameter.
+There is nothing to try for you, cause I am currently figuring out how I should
+prepare the work I have done in the past and how I can provide it in a usable way.
 
-## Query Language
+## How it works
 
-A powerful URL driven query toolkit can be quite effective when using an API. It prevents you from writing "custom"
-code for specific demands. This skeleton using an OData specification to add QL support.
+The core idea of this library is to give you a bunch of plugins,
+which should be used to accept, validate, transform request and/or response
+objects.
 
-    GET /users?filter=name LK 'My Nam...' AND email EQ 'box@mail.com'&order=name,-email
+In comparison to the well known [middleware](http://stephensugden.com/middleware_guide/)
+concept of [Node.js](http://nodejs.org/), these modules are applied on a per route base.
 
-## SSL
+The library is using [Express](http://expressjs.com/) as core infrastructure layer for
+routing requests and serving data.
 
-Node.js provide you with an easy way to use certificates to secure your application traffic. In this
-app we have created a self-signed certificate for you (to prevent bootstrap time), but you should never
-use this certificate anywhere else than in your production environment.
+### Basic example
 
-    key: fs.readFileSync('./keys/key.pem'),
-    cert: fs.readFileSync('./keys/cert.pem')
+```js
+/**
+ * Data plugin
+ * @param {Route} route
+ * @param {Object} body
+ * @returns {Function}
+ */
+function data( route, body ) {
+    /**
+     * @scope {Resource}
+     * @param {Object} req
+     * @param {Object} res
+     * @returns {*}
+     */
+    return function( req, res ) {
+        res.body = body;
+    };
+}
+module.exports = data;
+```
 
-    // Create your own self-signed certificate
-    openssl genrsa 4096 > api.dev.key
-    openssl req -x509 -new -key api.dev.key > api.dev.cert
+Every plugin must be implemented as a function with the given signature. In order
+to register a plugin written by yourself, use the following command.
 
-## Fixtures
+```js
+var Resource = require( 'resource' );
+Resource.plugin( 'myplugin', require( './myplugin' ) );
+```
 
-In order to create useful fixtures for your API, you should use testdate or create data on your own.
-I have used [json-generator](http://www.json-generator.com/) for this project.
+### Full example
 
-## References
+```js
+app
+    .authenticate(…)
+    .get( '/resource/:id' )
+    .rest(…)
+    .transform(…)
+    .data(…)
+    .acl(…)
+    .json( {…} )
+    .catch( function( err ) {…} )
+```
 
-* [RESTful webservices with node.js](http://de.slideshare.net/FDConf/writing-restful-web-services-using-nodejs)
-* [RESTful Best Practice](https://s3.amazonaws.com/tfpearsonecollege/bestpractices/RESTful+Best+Practices.pdf)
-* [OData URI Conventions](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/)
+## Samples
 
-## Releases
+### gets a collection
 
-- 0.0.1 Upgrade express.js to 4.x
-- 0.0 Project start
+```js
+app
+    .get( '/resource' )
+    .rest( {…} )
+    .acl( {…} )
+    .json( {…} )
+```
+
+### gets a resource
+
+```js
+app
+    .get( '/resource/:id' )
+    .rest( {…} )
+    .acl( {…} )
+    .json( {…} )
+```
+
+### creates a resource
+
+```js
+app
+    .put( '/resource/:id' )
+    .acl( {…} )
+    .rest( {…} )
+    .acl( {…} )
+    .json( {…} )
+```
+
+### updates a resource
+
+```js
+app
+    .put( '/resource/:id' )
+    .acl( {…} )
+    .rest( {…} )
+    .acl( {…} )
+    .json( {…} )
+```
+
+### deletes a resource
+
+```js
+app
+    .delete( '/resource/:id' )
+    .acl( {…} )
+    .rest( {…} )
+    .send( {…} )
+```
+
+### error handling
+
+You do not need to handle common API errors on your own. The library responds
+to the client at leasat with a proper HTTP status code
+(e.g. 404 for document not found) automatically. You might want to intercept
+the error middleware and return a custom message. In general you should avoid
+sending specific error details from your API in production mode.
+
+If NODE_ENV=development you will also get a error object with the original
+error message and a stacktrace.
+
+```js
+app
+    .catch( function(err) {…} )
+```
+
+### files
+
+The library takes care of different API tasks. Most people want to use this lib
+as their core API framework for classic JSON coast-to-coast applications.
+Anyway, a lot of APIs need to accomplish more than that.
+
+A good example is how to handle files. This library takes care of file uploads
+and delivery with the help of [GridFS](http://docs.mongodb.org/manual/core/gridfs/).
+
+We also provide extensions for common media related file tasks. For this purpose
+you can extend your API with media extensions.
+
+#### get a single file
+
+```bash
+app
+    .get( '/files/:id' )
+    .file( {…} )
+```
+
+The library also takes care of file ownerships and privileges. We are using the
+[metadata](http://docs.mongodb.org/manual/reference/gridfs/#gridfs-files-collection) property for this.
+
+The file handler is a special case. We do not follow REST principals 100% here.
+Someone might expect file metadata instead of the binary representation of the
+file when fetching for a specific resource ID. We have chosen to not do so as
+we have learned from experience, that this tradeoff should be made.
+
+Though, you still can get the metadata if you want.
+
+```HTTP
+GET /files/1/metadata
+```
+
+```js
+app
+    .get( '/files/:id/metadata' )
+    .file( {metadata: true} )
+```
+
+There is another option you might consider useful. Forcing a download. It simply
+adds a Content-Disposition header.
+
+```HTTP
+GET /files/1/download
+```
+
+```HTTP
+Content-Disposition: attachment; filename="downloaded.pdf"
+```
+
+```js
+app
+    .get( '/files/:id/download' )
+    .file( {download: true} )
+```
+
+You can also set a query parameter that is used to override the filename which
+is sent to the client.
+
+```HTTP
+GET /files/1?name=filename.pdf
+```
+
+```js
+app
+    .get( '/files/:id' )
+    .file(
+        {
+            download: true,
+            filename: 'name'
+        }
+    )
+```

@@ -16,6 +16,7 @@ head
     include ./bower-styles
     link(rel="stylesheet", href="styles/main.css")
     // endbuild
+    link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css")
 
 body#page-top.index
     // Navigation
@@ -62,15 +63,12 @@ body#page-top.index
                     h2 Download
                     hr.star-primary
             .row
-                p.text-center.text-muted
-                    | We are currently working on our
-                    | first release.
+                p.text-center.text-muted.
+                    First release is under development.
                 p.text-center
                     | If you still want to fool around with the
                     | code, you can
-                    a(href='https://www.npmjs.org/package/node-restable')
-                        | fork
-                        | it on github
+                    a(href='https://www.npmjs.org/package/node-restable') &nbsp;fork it on github
                     | .
 
     // Docs
@@ -81,14 +79,10 @@ body#page-top.index
                     h2 Documentation
                     hr.star-primary
             .row
-                p.text-center.text-muted
-                    | We are currently working on
-                    | documentation and examples.
-                pre.col-sm-6.col-sm-offset-3.
-                    # Install
-                    npm install node-restable
+                p.text-center.text-muted.
+                    As the repository grows, also the documentation will get better.
             .row
-                .col-sm-12.md
+                .col-md-10.col-md-offset-1.col-sm-12.col-sm-offset-0.markdown-body
                     include:md sections/readme.md
 
     // About Section
@@ -100,20 +94,19 @@ body#page-top.index
                     hr.star-light
             .row
                 .col-lg-4.col-lg-offset-2
-                    p
-                        | neti.am aims to provider a fully-featured open-source API
-                        | stack for your next project. Using progressive and easy to
-                        | use technology (Node.js, MongoDB), we try to shorten down
-                        | your development time and reduce your costs.
+                    p.
+                        neti.am aims to provider a fully-featured open-source API
+                        stack for your next project. Using progressive and easy to
+                        use technology (Node.js, MongoDB), we try to shorten down
+                        your development time and reduce your costs.
                 .col-lg-4
-                    p
-                        | We do our best to give you a solid and straight-forward API
-                        | next to a modular system, so that this will fit easily into
-                        | most of your development scenarios.
+                    p.
+                        We do our best to give you a solid and straight-forward API
+                        next to a modular system, so that this will fit easily into
+                        most of your development scenarios.
                 .col-lg-8.col-lg-offset-2.text-center
                     a.btn.btn-lg.btn-outline(href='#', disabled='disabled')
-                        i.fa.fa-download
-                        | Download
+                        i.fa.fa-download Download
 
     // Footer
     footer.text-center
@@ -159,3 +152,6 @@ body#page-top.index
     script(async, src='../bower_components/bootstrap/dist/js/bootstrap.js')
     script(async, src='scripts/main.js')
     // endbuild
+    script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js")
+    script.
+        window.hljs.initHighlightingOnLoad();
