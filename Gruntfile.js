@@ -16,6 +16,17 @@ module.exports = function( grunt ) {
 
         config: config,
 
+        gitclone: {
+            dist: {
+                options: {
+                    repository: 'https://github.com/eliias/netiam.git',
+                    branch:     'master',
+                    directory:  '.tmp/lib',
+                    depth:      1
+                }
+            }
+        },
+
         watch: {
             bower:      {
                 files: ['bower.json'],
@@ -312,6 +323,7 @@ module.exports = function( grunt ) {
 
     grunt.registerTask( 'build', [
         'clean:dist',
+        'gitclone',
         'jade:dist',
         'useminPrepare',
         'concurrent:dist',
