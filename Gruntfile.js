@@ -313,6 +313,7 @@ module.exports = function( grunt ) {
 
         grunt.task.run( [
             'clean:server',
+            'gitclone',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
