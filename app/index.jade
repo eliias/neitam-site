@@ -67,7 +67,8 @@ body#page-top.index
                     h2 Download
                     hr.star-primary
             .row
-                p.text-center.text-muted.
+                .col-md-10.col-md-offset-1.col-sm-12.col-sm-offset-0.markdown-body
+                    include:md ./markdown/download.md
 
     section#docs
         .container
@@ -77,7 +78,8 @@ body#page-top.index
                     hr.star-primary
             .row
                 p.text-center.text-muted.
-                    As the repository grows, also the documentation will get better.
+                    This section contains the readme from the official library.
+                br
             .row
                 .col-md-10.col-md-offset-1.col-sm-12.col-sm-offset-0.markdown-body
                     include:md ../.tmp/lib/README.md
@@ -102,7 +104,8 @@ body#page-top.index
                         most of your development scenarios.
                 .col-lg-8.col-lg-offset-2.text-center
                     a.btn.btn-lg.btn-outline(href='https://github.com/eliias/netiam/releases/latest')
-                        i.fa.fa-download Download
+                        i.fa.fa-download
+                        | &nbsp;Download
 
     footer.text-center
         .footer-above
@@ -135,7 +138,7 @@ body#page-top.index
             .container
                 .row
                     .col-lg-12
-                        | Copyright © neti.am 2014
+                        | Copyright © neti.am 2015
 
     .scroll-top.page-scroll.visible-xs.visble-sm
         a.btn.btn-primary(href='#page-top')
