@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           repository: 'https://github.com/eliias/netiam.git',
-          branch: 'master',
+          branch: 'v7',
           directory: '.tmp/lib',
           depth: 1
         }
