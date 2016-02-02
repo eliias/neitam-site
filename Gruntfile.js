@@ -291,36 +291,6 @@ module.exports = function(grunt) {
       ]
     },
 
-    uncss: {
-      options: {
-        ignore: [
-          /fa/,
-          /btn/,
-          /.in/,
-          /.out/,
-          /tito/,
-          /#map/,
-          /modal/,
-          /footer/,
-          /sponsor/,
-          /\.team-member/,
-          /\.img\-circle/,
-          /\.list\-inline/,
-          /\.navbar\-shrink/,
-          /collap/,
-          /\.social\-buttons/
-        ]
-      },
-      dist: {
-        files: [
-          {
-            src: '<%= config.dist %>/index.html',
-            dest: '<%= config.dist %>/styles/main.css'
-          }
-        ]
-      }
-    },
-
     cssmin: {
       dist: {
         files: [
@@ -359,7 +329,6 @@ module.exports = function(grunt) {
     'concat',
     'uglify',
     'copy',
-    'uncss',
     'cssmin:dist',
     'rev',
     'usemin',
