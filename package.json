@@ -40,7 +40,7 @@
     "grunt-git": "^1.0.3",
     "grunt-newer": "^1.2.0",
     "grunt-rev": "^0.1.0",
-    "grunt-uncss": "^0.7.0",
+    "grunt-uncss": "^0.8.0",
     "grunt-svgmin": "^5.0.0",
     "grunt-usemin": "^3.1.1",
     "grunt-wiredep": "^3.0.1",
