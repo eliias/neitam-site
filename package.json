@@ -47,6 +47,6 @@
     "jshint-stylish": "^2.2.1",
     "load-grunt-tasks": "^4.0.0",
     "marked": "^0.4.0",
-    "time-grunt": "^1.4.0"
+    "time-grunt": "^2.0.0"
   }
 }
